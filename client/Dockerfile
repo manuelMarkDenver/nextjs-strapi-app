@@ -9,7 +9,7 @@ CMD ["npm", "run", "dev"]
 
 # For the production build
 FROM node:18-alpine as builder
-WORKDIR /var/www/nextjs-strapi-app/client
+WORKDIR /var/www/nextjs-strapi-app/clientk
 COPY ./package*.json ./
 RUN npm install
 COPY ./ .

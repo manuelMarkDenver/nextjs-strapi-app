@@ -6,7 +6,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./client:/app/client
+      - ./client:/var/www/nextjs-strapi-app/client
     restart: always
     env_file: ./client/.env.local
 
