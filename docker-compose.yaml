@@ -7,7 +7,7 @@ services:
       - 3000:3000
     volumes:
       - ./client:/app/client
-    restart: unless-stopped
+    restart: always
     env_file: ./client/.env.local
 
   nginx:
