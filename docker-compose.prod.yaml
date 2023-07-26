@@ -55,7 +55,7 @@ services:
     depends_on:
       - strapiDB_PROD
 
-  strapiDB:
+  strapiDB_PROD:
     container_name: strapiDB_PROD
     platform: linux/amd64 #for platform error on Apple M1 chips
     restart: always
