@@ -25,9 +25,9 @@ services:
     container_name: strapi
     build:
       context: ./strapi
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     image: strapi:latest
-    restart: unless-stopped
+    restart: always
     env_file: ./strapi/.env
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
