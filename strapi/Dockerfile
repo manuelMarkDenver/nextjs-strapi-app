@@ -1,0 +1,39 @@
+# Use the official Node.js 18 image based on Alpine Linux
+FROM node:18-alpine
+
+# Install libvips-dev and other dependencies for sharp compatibility
+RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev
+
+# Set the NODE_ENV to "development" by default (can be overridden during build)
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
+
+# Create a directory for the app inside the container
+WORKDIR /var/www/nextjs-strapi-app/strapi
+
+# Copy package.json and package-lock.json first to leverage Docker cache
+COPY package*.json  ./
+
+# Install Node.js dependencies
+RUN npm config set fetch-retry-maxtimeout 600000 -g && npm install
+
+# Add Node.js binaries to the PATH
+ENV PATH /var/www/nextjs-strapi-app/strapi/node_modules/.bin:$PATH
+
+# Copy the rest of the application code
+COPY . .
+
+# Change ownership of the app directory to the non-root "node" user
+RUN chown -R node:node /var/www/nextjs-strapi-app/strapi
+
+# Switch to the non-root "node" user
+USER node
+
+# Build the application (assuming your package.json contains the "build" script)
+RUN npm run build
+
+# Expose the default Strapi port
+EXPOSE 1337
+
+# Start the Strapi development server (assuming your package.json contains the "develop" script)
+CMD ["npm", "run", "develop"]
