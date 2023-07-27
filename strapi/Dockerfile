@@ -1,39 +1,29 @@
-# Use the official Node.js 18 image based on Alpine Linux
-FROM node:18-alpine
-
-# Install libvips-dev and other dependencies for sharp compatibility
-RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev
-
-# Set the NODE_ENV to "development" by default (can be overridden during build)
-ARG NODE_ENV=development
+# Creating multi-stage build for production
+FROM node:18-alpine as build
+RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev > /dev/null 2>&1
+ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
-# Create a directory for the app inside the container
-WORKDIR /var/www/nextjs-strapi-app/strapi
-
-# Copy package.json and package-lock.json first to leverage Docker cache
-COPY package*.json  ./
-
-# Install Node.js dependencies
-RUN npm config set fetch-retry-maxtimeout 600000 -g && npm install
-
-# Add Node.js binaries to the PATH
-ENV PATH /var/www/nextjs-strapi-app/strapi/node_modules/.bin:$PATH
-
-# Copy the rest of the application code
+WORKDIR /opt/
+COPY package*.json ./
+RUN npm config set fetch-retry-maxtimeout 600000 -g && npm install --omit=dev
+ENV PATH /opt/node_modules/.bin:$PATH
+WORKDIR /opt/app
 COPY . .
-
-# Change ownership of the app directory to the non-root "node" user
-RUN chown -R node:node /var/www/nextjs-strapi-app/strapi
-
-# Switch to the non-root "node" user
-USER node
-
-# Build the application (assuming your package.json contains the "build" script)
 RUN npm run build
 
-# Expose the default Strapi port
-EXPOSE 1337
+# Creating final production image
+FROM node:18-alpine
+RUN apk add --no-cache vips-dev
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+WORKDIR /opt/
+COPY --from=build /opt/node_modules ./node_modules
+WORKDIR /opt/app
+COPY --from=build /opt/app ./
+ENV PATH /opt/node_modules/.bin:$PATH
 
-# Start the Strapi development server (assuming your package.json contains the "develop" script)
-CMD ["npm", "run", "develop"]
+RUN chown -R node:node /opt/app
+USER node
+EXPOSE 1337
+CMD ["npm", "run", "start"]
