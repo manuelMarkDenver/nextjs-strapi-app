@@ -48,6 +48,13 @@ services:
       - ./strapi/yarn.lock:/var/www/nextjs-strapi-app/stripe/yarn.lock
       - ./strapi/.env:/var/www/nextjs-strapi-app/stripe/.env
       - ./strapi/public/uploads:/var/www/nextjs-strapi-app/stripe/public/uploads
+    # volumes:
+    #   - ./config:/opt/app/config
+    #   - ./src:/opt/app/src
+    #   - ./package.json:/opt/package.json
+    #   - ./yarn.lock:/opt/yarn.lock
+    #   - ./.env:/opt/app/.env
+    #   - ./public/uploads:/opt/app/public/uploads
     ports:
       - "1337:1337"
     networks:
