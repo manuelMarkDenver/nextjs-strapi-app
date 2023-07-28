@@ -4,11 +4,11 @@ RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev l
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
-WORKDIR /opt/
+WORKDIR /var/www/nextjs-strapi-app/strapi
 COPY package*.json ./
 RUN npm config set fetch-retry-maxtimeout 600000 -g && npm install --omit=dev
-ENV PATH /opt/node_modules/.bin:$PATH
-WORKDIR /opt/app
+ENV PATH /var/www/nextjs-strapi-app/strapi/node_modules/.bin:$PATH
+WORKDIR /var/www/nextjs-strapi-app/strapi/
 COPY . .
 RUN npm run build
 
@@ -17,13 +17,13 @@ FROM node:18-alpine
 RUN apk add --no-cache vips-dev
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
-WORKDIR /opt/
-COPY --from=build /opt/node_modules ./node_modules
-WORKDIR /opt/app
-COPY --from=build /opt/app ./
-ENV PATH /opt/node_modules/.bin:$PATH
+WORKDIR /var/www/nextjs-strapi-app/strapi/
+COPY --from=build /var/www/nextjs-strapi-app/strapi/node_modules ./node_modules
+WORKDIR /var/www/nextjs-strapi-app/strapi
+COPY --from=build /var/www/nextjs-strapi-app/strapi ./
+ENV PATH /var/www/nextjs-strapi-app/strapi/node_modules/.bin:$PATH
 
-RUN chown -R node:node /opt/app
+RUN chown -R node:node /var/www/nextjs-strapi-app/strapi
 USER node
 EXPOSE 1337
 CMD ["npm", "run", "start"]
