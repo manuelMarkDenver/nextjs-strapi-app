@@ -9,7 +9,7 @@ services:
     volumes:
       - ./client:/var/www/nextjs-strapi-app/client
     restart: always
-    env_file: ./client/.env
+    env_file: ./client/.env.local
     networks:
       - strapi_dev
 
