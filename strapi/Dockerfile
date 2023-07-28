@@ -17,7 +17,7 @@ FROM node:18-alpine
 RUN apk add --no-cache vips-dev
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
-WORKDIR /opt/
+WORKDIR /var/www/nextjs-strapi-app/strapi/
 COPY --from=build /var/www/nextjs-strapi-app/strapi/node_modules ./node_modules
 WORKDIR /var/www/nextjs-strapi-app/strapi
 COPY --from=build /var/www/nextjs-strapi-app/strapi ./
