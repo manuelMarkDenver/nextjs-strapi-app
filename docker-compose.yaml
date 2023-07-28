@@ -41,20 +41,20 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
-    # volumes:
-      # - ./strapi/config:/var/www/nextjs-strapi-app/stripe/config
-      # - ./strapi/src:/var/www/nextjs-strapi-app/stripe/src
-      # - ./strapi/package.json:/var/www/nextjs-strapi-app/stripe/package.json
-      # - ./strapi/yarn.lock:/var/www/nextjs-strapi-app/stripe/yarn.lock
-      # - ./strapi/.env:/var/www/nextjs-strapi-app/stripe/.env
-      # - ./strapi/public/uploads:/var/www/nextjs-strapi-app/stripe/public/uploads
     volumes:
-      - ./strapi/config:/opt/app/config
-      - ./strapi/src:/opt/app/src
-      - ./strapi/package.json:/opt/package.json
-      - ./strapi/yarn.lock:/opt/yarn.lock
-      - ./strapi/.env:/opt/app/.env
-      - ./strapi/public/uploads:/opt/app/public/uploads
+      - ./strapi/config:/var/www/nextjs-strapi-app/stripe/config
+      - ./strapi/src:/var/www/nextjs-strapi-app/stripe/src
+      - ./strapi/package.json:/var/www/nextjs-strapi-app/stripe/package.json
+      - ./strapi/yarn.lock:/var/www/nextjs-strapi-app/stripe/yarn.lock
+      - ./strapi/.env:/var/www/nextjs-strapi-app/stripe/.env
+      - ./strapi/public/uploads:/var/www/nextjs-strapi-app/stripe/public/uploads
+    # volumes:
+    #   - ./strapi/config:/opt/app/config
+    #   - ./strapi/src:/opt/app/src
+    #   - ./strapi/package.json:/opt/package.json
+    #   - ./strapi/yarn.lock:/opt/yarn.lock
+    #   - ./strapi/.env:/opt/app/.env
+    #   - ./strapi/public/uploads:/opt/app/public/uploads
     ports:
       - "1337:1337"
     networks:
