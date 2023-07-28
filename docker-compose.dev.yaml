@@ -26,7 +26,7 @@ services:
     container_name: strapi
     build:
       context: ./strapi
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     image: strapi:latest
     restart: unless-stopped
     env_file: .env
