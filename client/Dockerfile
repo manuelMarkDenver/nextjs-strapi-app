@@ -19,7 +19,7 @@ RUN npm run build
 FROM node:18-alpine
 WORKDIR /var/www/nextjs-strapi-app/client
 COPY --from=builder /var/www/nextjs-strapi-app/client/package*.json ./
-RUN npm install --production
+RUN npm install --omit-dev
 COPY --from=builder /var/www/nextjs-strapi-app/client/.next ./.next
 EXPOSE 3000
 CMD ["npm", "run", "start"]
