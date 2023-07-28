@@ -62,7 +62,7 @@ services:
     ports:
       - "1337:1337"
     networks:
-      - strapi
+      - strapi_dev
     depends_on:
       - strapiDB_dev
 
