@@ -73,9 +73,9 @@ services:
     env_file: .env
     image: postgres:14.0-alpine
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: strapidb
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
     # environment:
     #   POSTGRES_USER: ${DATABASE_USERNAME}
     #   POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
