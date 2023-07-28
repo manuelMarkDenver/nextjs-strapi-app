@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # Install libvips-dev and other dependencies for sharp compatibility
-RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev
+RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev > /dev/null 2>&1
 
 # Set the NODE_ENV to "development" by default (can be overridden during build)
 ARG NODE_ENV=development
